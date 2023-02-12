@@ -26,6 +26,13 @@ questions = [
     {"question": "24 * 20?", "options": ["526", "500", "480"], "answer": "3"}
 ]
 
+
+# questions = []
+# with open('questions.txt', 'r') as f:
+#     for i in f:
+#         questions.append(eval(o.strip()))
+
+
 # Select 10 random questions from the list
 selected_questions = random.sample(questions, 10)
 
@@ -45,5 +52,9 @@ for question in selected_questions:
     print()
 
 print(f"You answered {correct_answers} out of {len(selected_questions)} questions correctly.")
+
+f = open('usertop.txt', 'w')
+print(f.write(f'Top user: {name}'))
+f.close()
 
 
