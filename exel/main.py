@@ -1,4 +1,5 @@
 import xlsxwriter as xw
+import argparse
 
 
 # Database
@@ -54,6 +55,25 @@ data = [
 ]
 
 
+
+parser = argparse.ArgumentParser(description='This program is designed to prepare a database and to add data. The background of people aged 25 years or older is green and the rest of the boxes are gray and the data will be added to the database when the data is transferred from outside.')
+parser.add_argument('-N','--name', type=str, required=True, help='Add name argument like this -name Trump or -N Trump')
+parser.add_argument('-S','--surname', type=str, required=True, help='Add surname argument like this -surname Smith  or -S Smith')
+parser.add_argument('-A','--age', type=int, required=True, help='Add age argument like this -age 18 or -A 18 ')
+parser.add_argument('-P','--phone', type=int, required=True, help='Add phone argument like this -phone 374000000 or -P 374000000 ')
+
+args = parser.parse_args()
+
+new_data = {
+    "name": args.name,
+    "surname": args.surname,
+    "age": args.age,
+    "phone": args.phone
+}
+
+data.append(new_data)
+
+
 # make workbook
 workbook = xw.Workbook('db.xlsx')
 worksheet = workbook.add_worksheet('Data')
@@ -63,6 +83,14 @@ worksheet = workbook.add_worksheet('Data')
 header_color = workbook.add_format(
     {
         "bg_color": "#fcbe03"
+    }
+)
+
+
+# white backround color checnge gray
+white_bg_color = workbook.add_format(
+    {
+        "bg_color":"gray"
     }
 )
 
@@ -80,10 +108,10 @@ worksheet.set_column(0, 5, 20)
 
 # make loop for header
 for index, entry in enumerate(data):
-    worksheet.write(index+1, 0, str(index))
-    worksheet.write(index+1, 1, entry["name"])
-    worksheet.write(index+1, 2, entry["age"])
-    worksheet.write(index+1, 3, entry["phone"])
+    worksheet.write(index+1, 0, str(index), white_bg_color)
+    worksheet.write(index+1, 1, entry["name"], white_bg_color)
+    worksheet.write(index+1, 2, entry["age"], white_bg_color)
+    worksheet.write(index+1, 3, entry["phone"], white_bg_color)
 
     # Apply conditional formatting for age >= 25
     if entry["age"] >= 25:
