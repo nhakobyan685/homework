@@ -1,6 +1,3 @@
-#!/bin/bash/python3
-
-
 import xlsxwriter as xw
 
 
@@ -54,9 +51,6 @@ data = [
         "age":35,
         "phone":37444578501
     }
-
-
-
 ]
 
 
@@ -68,45 +62,20 @@ worksheet = workbook.add_worksheet('Data')
 # paint header yellow
 header_color = workbook.add_format(
     {
-        "bg_color":"#fcbe03",
-
+        "bg_color": "#fcbe03"
     }
 )
 
 
 # write xlsx file
-worksheet.write(
-        0,
-        0, 
-        "id",
-        header_color
-)
-worksheet.write(
-        0, 
-        1, 
-        "Name",
-        header_color
-)
-worksheet.write(
-        0, 
-        2, 
-        "Age",
-        header_color
-)
-worksheet.write(
-        0, 
-        3, 
-        "Phone",
-        header_color
-)
+worksheet.write(0, 0, "id", header_color)
+worksheet.write(0, 1, "Name", header_color)
+worksheet.write(0, 2, "Age", header_color)
+worksheet.write(0, 3, "Phone", header_color)
 
 
 # worksheet column color
-worksheet.set_column(
-        0,
-        5,
-        20
-)
+worksheet.set_column(0, 5, 20)
 
 
 # make loop for header
@@ -115,6 +84,11 @@ for index, entry in enumerate(data):
     worksheet.write(index+1, 1, entry["name"])
     worksheet.write(index+1, 2, entry["age"])
     worksheet.write(index+1, 3, entry["phone"])
+
+    # Apply conditional formatting for age >= 25
+    if entry["age"] >= 25:
+        format = workbook.add_format({"bg_color": "green"})
+        worksheet.conditional_format(index+1, 2, index+1, 2, {"type": "cell", "criteria": ">=", "value": 25, "format": format})
 
 
 # save file xlsx
